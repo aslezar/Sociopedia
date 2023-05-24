@@ -29,6 +29,9 @@ const verifyToken = require('./middleware/auth');
 app.use('/assets', express.static('public/assets'));
 
 //Routes
+app.get('/', (req, res) => {
+	res.send('Hello!');
+});
 app.use('/auth', authRoutes);
 app.use('/user', verifyToken, userRoutes);
 app.use('/posts', verifyToken, postRoutes);
