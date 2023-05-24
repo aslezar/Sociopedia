@@ -1,8 +1,9 @@
-const multer = require("multer");
+const multer = require('multer');
 
+//set storage engine
 const storage = multer.diskStorage({
 	destination: function (req, res, cb) {
-		cb(null, "public/assets");
+		cb(null, 'public/assets');
 	},
 	filename: function (req, res, cb) {
 		cb(null, file.originalname);
@@ -10,4 +11,4 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-module.exports = upload; 
+module.exports = upload;

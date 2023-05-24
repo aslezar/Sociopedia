@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+//create schema
 const postSchema = new mongoose.Schema(
 	{
 		userId: {

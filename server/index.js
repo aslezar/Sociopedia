@@ -18,24 +18,24 @@ const postRoutes = require('./routes/post');
 dotenv.config();
 
 //Middleware
-app.use(express.json({ limit: '30mb' }));
+app.use(express.json({ limit: '30mb' })); //body-parser
 app.use(cors());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
-app.use(morgan('common'));
-const verifyToken = require('./middleware/auth');
+app.use(morgan('common')); //logger
+const verifyToken = require('./middleware/auth'); //auth middleware
 
 //Static assets
-app.use('/assets', express.static('public/assets'));
+app.use('/assets', express.static('public/assets')); //static assets
 
 //Routes
 
 app.get('/', (req, res) => {
 	res.send('Hello!');
 });
-app.use('/auth', authRoutes);
-app.use('/user', verifyToken, userRoutes);
-app.use('/posts', verifyToken, postRoutes);
+app.use('/auth', authRoutes); //auth routes
+app.use('/user', verifyToken, userRoutes); //user routes
+app.use('/posts', verifyToken, postRoutes); //post routes
 
 //Starting Server
 const PORT = process.env.PORT || 5000;

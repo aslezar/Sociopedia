@@ -3,7 +3,7 @@ const User = require('../models/User');
 const getUser = async (req, res) => {
 	try {
 		const { id } = req.params;
-		const user = await User.findById(id);
+		const user = await User.findById(id); //find user by id
 		res.status(200).json(user);
 	} catch (error) {
 		res.status(404).json({ message: error.message });
@@ -17,7 +17,7 @@ const getUserFriends = async (req, res) => {
 
 		const friends = await Promise.all(
 			user.friends.map((friendID) => User.findById(friendID))
-		);
+		); //find all friends
 		const formattedFriends = friends.map(
 			({ _id, firstName, lastName, occupation, location, picturePath }) => {
 				_id, firstName, lastName, occupation, location, picturePath;
@@ -41,18 +41,18 @@ const addRemoveFriend = async (req, res) => {
 		} else {
 			user.friends.push(friendID);
 			friend.friends.push(id);
-		}
+		} //add or remove friend
 		await user.save();
 		await friend.save();
 
 		friend = await Promise.all(
 			user.friends.map((friendID) => User.findById(friendID))
-		);
+		); //find all friends
 		const formattedFriends = friends.map(
 			({ _id, firstName, lastName, occupation, location, picturePath }) => {
 				_id, firstName, lastName, occupation, location, picturePath;
 			}
-		);
+		); //format friends
 		res.status(200).json(formattedFriends);
 	} catch (error) {
 		res.status(404).json({ message: error.message });

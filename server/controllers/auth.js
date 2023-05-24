@@ -27,7 +27,7 @@ const register = async (req, res) => {
 			viewedProfiles: Math.floor(Math.random() * 1000),
 			impressions: Math.floor(Math.random() * 1000),
 		});
-		res.status(StatusCodes.CREATED).json(newUser);
+		res.status(StatusCodes.CREATED).json(newUser); // 201
 	} catch (error) {
 		res
 			.status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -48,7 +48,7 @@ const login = async (req, res) => {
 			return res
 				.status(StatusCodes.BAD_REQUEST)
 				.json({ msg: 'Invalid Credentials' });
-		const token = user.generateToken();
+		const token = user.generateToken(); //generate token
 		delete user.password;
 		res.status(StatusCodes.OK).json({ user, token });
 	} catch (error) {

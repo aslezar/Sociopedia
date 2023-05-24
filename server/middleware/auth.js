@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 
+//middleware to verify token
 const verifyToken = (req, res, next) => {
 	try {
 		const token = req.headers('Authorization');
@@ -7,7 +8,7 @@ const verifyToken = (req, res, next) => {
 			return res.status(403).json({ msg: 'You are not authorized' });
 		}
 		if (token.startsWith('Bearer ')) {
-			token = token.slice(7, token.length).trimLeft();
+			token = token.slice(7, token.length).trimLeft(); //remove Bearer from token
 		}
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
 		req.user = decoded;
