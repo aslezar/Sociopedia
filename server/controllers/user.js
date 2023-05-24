@@ -6,6 +6,7 @@ const getUser = async (req, res) => {
 		const user = await User.findById(id); //find user by id
 		res.status(200).json(user);
 	} catch (error) {
+		console.log('error1');
 		res.status(404).json({ message: error.message });
 	}
 };
@@ -20,11 +21,19 @@ const getUserFriends = async (req, res) => {
 		); //find all friends
 		const formattedFriends = friends.map(
 			({ _id, firstName, lastName, occupation, location, picturePath }) => {
-				_id, firstName, lastName, occupation, location, picturePath;
+				return {
+					_id,
+					firstName,
+					lastName,
+					occupation,
+					location,
+					picturePath,
+				};
 			}
 		);
 		res.status(200).json(formattedFriends);
 	} catch (error) {
+		console.log('error2');
 		res.status(404).json({ message: error.message });
 	}
 };
@@ -34,10 +43,10 @@ const addRemoveFriend = async (req, res) => {
 	try {
 		const { id, friendID } = req.params;
 		const user = await User.findById(id);
-		const friend = await User.findById(friendID);
+		let friend = await User.findById(friendID);
 		if (user.friends.includes(friendID)) {
-			user.friends = user.friends.filter((id) => id !== friendID);
-			friend.friends = friend.friends.filter((id) => id !== id);
+			user.friends = user.friends.filter((id) => id.toString() !== friendID);
+			friend.friends = friend.friends.filter((id) => id.toString() !== id);
 		} else {
 			user.friends.push(friendID);
 			friend.friends.push(id);
@@ -48,13 +57,22 @@ const addRemoveFriend = async (req, res) => {
 		friend = await Promise.all(
 			user.friends.map((friendID) => User.findById(friendID))
 		); //find all friends
-		const formattedFriends = friends.map(
+		const formattedFriends = friend.map(
 			({ _id, firstName, lastName, occupation, location, picturePath }) => {
-				_id, firstName, lastName, occupation, location, picturePath;
+				return {
+					_id,
+					firstName,
+					lastName,
+					occupation,
+					location,
+					picturePath,
+				};
 			}
 		); //format friends
 		res.status(200).json(formattedFriends);
 	} catch (error) {
+		console.log(error);
+		console.log('error3');
 		res.status(404).json({ message: error.message });
 	}
 };

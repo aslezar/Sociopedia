@@ -1,7 +1,7 @@
 const Users = require('../models/User');
 const Post = require('../models/Post');
 
-const getFeedPosts = async () => {
+const getFeedPosts = async (req, res) => {
 	try {
 		const post = await Post.find(); //find all posts
 		res.status(200).json(post);
@@ -9,7 +9,7 @@ const getFeedPosts = async () => {
 		res.status(404).json({ message: error.message });
 	}
 };
-const getUserPosts = async () => {
+const getUserPosts = async (req, res) => {
 	try {
 		const { userId } = req.params;
 		const post = await Post.find({ userId }); //find all posts by user
@@ -18,7 +18,7 @@ const getUserPosts = async () => {
 		res.status(404).json({ message: error.message });
 	}
 };
-const likePost = async () => {
+const likePost = async (req, res) => {
 	try {
 		const { id } = req.params;
 		const { userId } = req.body;
@@ -29,7 +29,7 @@ const likePost = async () => {
 		} else {
 			post.likes.delete(userId); //if liked, delete
 		}
-		const updatedPost = await post.findByIdAndUpdate(id, post, { new: true }); //update post
+		const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true }); //update post
 
 		res.status(200).json(updatedPost);
 	} catch (error) {
@@ -39,10 +39,11 @@ const likePost = async () => {
 const createPost = async (req, res) => {
 	try {
 		const { description, picturePath } = req.body;
-		const user = await Users.findById(req.userId);
+		const user = await Users.findById(req.body.userId);
 		const newPost = new Post({
 			firstName: user.firstName,
-			lastname: user.lastname,
+			lastName: user.lastName,
+			userId: user._id,
 			location: user.location,
 			description,
 			userPicturePath: user.picturePath,

@@ -25,16 +25,11 @@ app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 app.use(morgan('common')); //logger
 const verifyToken = require('./middleware/auth'); //auth middleware
 
-//Static assets
-app.use('/assets', express.static('public/assets')); //static assets
-
 //Routes
-
-app.get('/', (req, res) => {
-	res.send('Hello!');
-});
+app.use(express.static('../client/build')); //static assets
+app.use('/assets', express.static('./public/assets')); //static assets
 app.use('/auth', authRoutes); //auth routes
-app.use('/user', verifyToken, userRoutes); //user routes
+app.use('/users', verifyToken, userRoutes); //user routes
 app.use('/posts', verifyToken, postRoutes); //post routes
 
 //Starting Server

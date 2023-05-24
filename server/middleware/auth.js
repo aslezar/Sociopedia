@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 //middleware to verify token
 const verifyToken = (req, res, next) => {
 	try {
-		const token = req.headers('Authorization');
+		let token = req.headers['authorization'];
 		if (!token) {
 			return res.status(403).json({ msg: 'You are not authorized' });
 		}
