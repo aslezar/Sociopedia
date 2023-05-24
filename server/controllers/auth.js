@@ -27,7 +27,9 @@ const register = async (req, res) => {
 			viewedProfiles: Math.floor(Math.random() * 1000),
 			impressions: Math.floor(Math.random() * 1000),
 		});
-		res.status(StatusCodes.CREATED).json(newUser); // 201
+		const token = newUser.generateToken();
+		delete newUser.password;
+		res.status(StatusCodes.CREATED).json({ user: newUser, token }); // 201
 	} catch (error) {
 		res
 			.status(StatusCodes.INTERNAL_SERVER_ERROR)
