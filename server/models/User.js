@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema(
 	{
-		firstname: {
+		firstName: {
 			type: String,
 			required: [true, 'Must Provide First Name'],
 			trim: true,
 			minlength: [2, 'First Name must have 2 characters'],
 			maxlength: [50, 'First Name can not exceed 50 characters'],
 		},
-		lastname: {
+		lastName: {
 			type: String,
 			required: [true, 'Must Provide Last Name'],
 			trim: true,
@@ -29,9 +29,7 @@ const UserSchema = new mongoose.Schema(
 		password: {
 			type: String,
 			required: [true, 'Must Provide Password'],
-			unique: true,
 			minlength: [8, 'Password must have 8 characters'],
-			maxlength: [32, 'Password can not exceed 32 characters'],
 		},
 		picturePath: {
 			type: String,

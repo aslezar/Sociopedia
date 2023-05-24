@@ -1,10 +1,10 @@
 const bcryptjs = require('bcryptjs');
 const { StatusCodes } = require('http-status-codes');
-const User = require('../models/Users');
+const User = require('../models/User');
 const register = async (req, res) => {
 	try {
 		const {
-			firstname,
+			firstName,
 			lastname,
 			email,
 			password,
@@ -16,7 +16,7 @@ const register = async (req, res) => {
 		const salt = await bcryptjs.genSalt(10);
 		const hashedPassword = await bcryptjs.hash(password, salt);
 		const newUser = await User.create({
-			firstname,
+			firstName,
 			lastname,
 			email,
 			password: hashedPassword,

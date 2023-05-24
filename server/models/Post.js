@@ -6,14 +6,14 @@ const postSchema = new mongoose.Schema(
 			type: String,
 			required: [true, 'Must Provide userId'],
 		},
-		firstname: {
+		firstName: {
 			type: String,
 			required: [true, 'Must Provide First Name'],
 			trim: true,
 			minlength: [2, 'First Name must have 2 characters'],
 			maxlength: [50, 'First Name can not exceed 50 characters'],
 		},
-		lastname: {
+		lastName: {
 			type: String,
 			required: [true, 'Must Provide Last Name'],
 			trim: true,

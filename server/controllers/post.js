@@ -1,5 +1,5 @@
-const Users = require('../models/Users');
-const Post = require('../models/post');
+const Users = require('../models/User');
+const Post = require('../models/Post');
 
 const getFeedPosts = async () => {
 	try {
@@ -37,7 +37,7 @@ const likePost = async () => {
 const createPost = async (req, res) => {
 	try {
 		const newPost = new Post({
-			firstname: user.firstname,
+			firstName: user.firstName,
 			lastname: user.lastname,
 			location: user.location,
 			description,
