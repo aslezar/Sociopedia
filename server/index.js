@@ -4,9 +4,11 @@ const app = express();
 
 //Imports
 const cors = require('cors');
-const dotenv = require('dotenv');
 const helmet = require('helmet');
+const xss = require('xss-clean');
+const rateLimiter = require('express-rate-limit');
 const morgan = require('morgan');
+const dotenv = require('dotenv');
 const connectDB = require('./db/connect');
 
 //Routers
@@ -17,10 +19,21 @@ const postRoutes = require('./routes/post');
 //Configurations
 dotenv.config();
 
+//Settings
+app.set('trust proxy', 1);
+
 //Middleware
+app.use(
+	rateLimiter({
+		windowMs: 15 * 60 * 1000, //15 minutes
+		max: 100, //limit each IP to 100 requests per windowMs
+	})
+);
 app.use(express.json({ limit: '30mb' })); //body-parser
-app.use(cors());
 app.use(helmet());
+app.use(cors());
+app.use(xss());
+
 app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 app.use(morgan('common')); //logger
 const verifyToken = require('./middleware/auth'); //auth middleware
